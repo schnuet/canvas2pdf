@@ -86,14 +86,19 @@
    *
    * @param stream Stream to write the PDF to.
    * @param options Options passed to PDFDocument constructor.
+   * @param pdfKitDocument PDFDocument constructor (only required when not in global vars)
    * @constructor
    */
-  canvas2pdf.PdfContext = function (stream, options) {
+  canvas2pdf.PdfContext = function (stream, options, PDFDocumentConstructor) {
     if (stream == null) {
       throw new Error('Stream must be provided.');
     }
+    if (PDFDocumentConstructor == null && PDFDocument == null) {
+      throw new Error('PDFDocument from PDFKit must be provided.');
+    }
+    if (PDFDocumentConstructor == null) PDFDocumentConstructor = PDFDocument;
     var _this = this;
-    var doc = new PDFDocument(options);
+    var doc = new PDFDocumentConstructor(options);
     this.stream = doc.pipe(stream);
     this.doc = doc;
 
