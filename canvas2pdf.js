@@ -388,6 +388,10 @@
     this.doc.clip();
   };
 
+  canvas2pdf.PdfContext.prototype.addPage = function () {
+    this.doc.addPage();
+  };
+
   canvas2pdf.PdfContext.prototype.drawImage = function (image) {
     var _this;
     var args = Array.prototype.slice.call(arguments);
