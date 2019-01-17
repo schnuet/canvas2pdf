@@ -165,7 +165,16 @@
         fontValue = value;
         var parsedFont = parseFont(value);
         _this.doc.fontSize(parsedFont.size);
-        _this.doc.font(parsedFont.family);
+        var family = parsedFont.family;
+        var families = family.split(',');
+        family = families[0];
+        for (var i = 0; i< families.length; i++) {
+          if (_this.doc._fontFamilies[families[i]] != null) {
+            family = families[i];
+            break;
+          }
+        }
+        _this.doc.font(family);
         _this.lineHeight = this.doc.currentLineHeight(false);
       },
     });
@@ -369,6 +378,10 @@
     var width = this.doc.widthOfString(text);
     var height = this.lineHeight;
     return {width: width, height: height};
+  };
+
+  canvas2pdf.PdfContext.prototype.registerFont = function(fontName, fontData) {
+    this.doc.registerFont(fontName, fontData);
   };
 
   canvas2pdf.PdfContext.prototype.clip = function () {
